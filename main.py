@@ -1,9 +1,5 @@
 ## -*- coding: utf-8 -*-
-"""
-Created on Fri Apr 30 17:54:38 2021
 
-@author: regis
-"""
 import math
 
 
