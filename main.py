@@ -1,9 +1,4 @@
-## -*- coding: utf-8 -*-
-"""
-Created on Fri Apr 30 17:54:38 2021
 
-@author: regis
-"""
 import math
 def nouvellegrille():
     return [[" "for i in range(12)]for j in range(12)],[i for i in range(1,145)]
@@ -139,8 +134,6 @@ def jeuprincipale():
                        print("egalité")
 
 
-
-
 def minimax(grille,profondeur,minisation,ordijoueur2):
     if profondeur>1 or place(grille)==144:
         return gagner(grille)
@@ -175,4 +168,6 @@ def minimax(grille,profondeur,minisation,ordijoueur2):
 
          return meilleurscore
 
+
+jeuprincipale()
 
