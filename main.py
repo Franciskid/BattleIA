@@ -142,17 +142,17 @@ def calculscore(grille):
     for i in range(12):
        for j in range(12):
            if grille[i][j]!=" ":
-               if j<=10:
-                   if grille[i][j]==grille[i][j+1]:
+               if j<=9:
+                   if grille[i][j]==grille[i][j+1]grille[i][j+2]:
                       g=grille[i][j]
                if i<=10:
-                   if grille[i][j]==grille[i+1][j]:
+                   if grille[i][j]==grille[i+1][j]==grille[i][j+2]:
                       g=grille[i][j]
                if i<10 and j<=8:
-                   if grille[i][j]==grille[i+1][j+1]:
+                   if grille[i][j]==grille[i+1][j+1]==grille[i+2][j+2]:
                       g=grille[i][j]
                if i<10 and j>=1:
-                    if grille[i][j]==grille[i+1][j-1]:
+                    if grille[i][j]==grille[i+1][j-1]==grille[i+2][j-2]:
                       g=grille[i][j]
     if g==0:
         return -1
