@@ -162,8 +162,19 @@ def deuxtrucalligner(grille):
                             score += 1
                         if grille[i][j] == j2:
                             score += -1
+                    if grille[i - 1][j] == grille[i + 1][j] == " " and grille[i][j] == grille[i + 2][j]:
+                        if grille[i][j] == j1:
+                            score += 1
+                        if grille[i][j] == j2:
+                            score += -1
+
                 if j <= 9 and j >= 1:
                     if grille[i][j - 1] == grille[i][j + 2] == " " and grille[i][j] == grille[i][j + 1]:
+                        if grille[i][j] == j1:
+                            score += 1
+                        if grille[i][j] == j2:
+                            score += -1
+                    if grille[i][j - 1] == grille[i][j + 1] == " " and grille[i][j] == grille[i][j + 2]:
                         if grille[i][j] == j1:
                             score += 1
                         if grille[i][j] == j2:
@@ -175,8 +186,18 @@ def deuxtrucalligner(grille):
                             score += 1
                         if grille[i][j] == j2:
                             score += -1
+                    if grille[i][j] == grille[i + 2][j + 2] and grille[i + 1][j + 1] == grille[i - 1][j - 1] == " ":
+                        if grille[i][j] == j1:
+                            score += 1
+                        if grille[i][j] == j2:
+                            score += -1
                 if i <= 9 and j <= 9 and j >= 1 and i >= 1:
                     if grille[i][j] == grille[i + 1][j - 1] and grille[i + 2][j - 2] == grille[i - 1][j + 1] == ' ':
+                        if grille[i][j] == j1:
+                            score += 1
+                        if grille[i][j] == j2:
+                            score += -1
+                    if grille[i][j] == grille[i + 2][j - 2] and grille[i + 1][j - 1] == grille[i - 1][j + 1] == ' ':
                         if grille[i][j] == j1:
                             score += 1
                         if grille[i][j] == j2:
@@ -210,8 +231,8 @@ def deuxtrucalligner(grille):
                             score += 10
                         if grille[i][j] == j2:
                             score += -10
-    return score
 
+    return score
 
 def maxValue(grille, profondeur, α, β):
     g = gagner(grille, profondeur)
