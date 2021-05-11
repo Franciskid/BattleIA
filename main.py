@@ -192,7 +192,6 @@ def jeuprincipale():
             if gagner(grille,0)==0:
                        print("egalité")
                             
-            
 def deuxtrucalligner(grille):
     j1='X'
     j2=0
@@ -289,13 +288,35 @@ def deuxtrucalligner(grille):
                             score+= -50
                     if grille[i][j]==grille[i+1][j-1]==grille[i+3][j-3] and grille[i+2][j-2]==grille[i-1][j+1]==' ':
                       if grille[i][j]==j1:
-                            score=50
-                      if grille[i][j]==j2:
                             score+=50
-                
+                      if grille[i][j]==j2:
+                            score+=-50
+               if j>=2 and j<=9:             
+                 if grille[i][j]!=grille[i][j+1] and grille[i][j+1]!=" " and grille[i][j+1]==grille[i][j-1] and grille[i][j+2]==grille[i][j-2]==" ":
+                         if grille[i][j]==j1:
+                            score+=10
+                         if grille[i][j]==j2:
+                            score+=-10
+               if i>=2 and i<=9:
+                  if grille[i][j]!=grille[i+1][j] and grille[i+1][j]!=" " and grille[i+1][j]==grille[i-1][j] and grille[i+2][j]==grille[i-2][j]==" ":
+                         if grille[i][j]==j1:
+                            score+=10
+                         if grille[i][j]==j2:
+                            score+=-10
+               if j>=2 and j<=9 and  i>=2 and i<=9:
+                   if grille[i][j]!=grille[i+1][j+1] and grille[i+1][j+1]!=" " and grille[i+1][j+1]==grille[i-1][j+1] and grille[i+2][j+2]==grille[i-2][j-2]==" ":
+                         if grille[i][j]==j1:
+                            score+=10
+                         if grille[i][j]==j2:
+                            score+=-10
+                   if grille[i][j]!=grille[i+1][j-1] and grille[i+1][j-1]!=" " and grille[i+1][j-1]==grille[i-1][j+1] and grille[i+2][j-2]==grille[i-2][j+2]==" ":
+                         if grille[i][j]==j1:
+                            score+=10
+                         if grille[i][j]==j2:
+                            score+=-10
+                   
                 
     return score
-    
     
             
 def maxValue(grille,profondeur,α,β):
