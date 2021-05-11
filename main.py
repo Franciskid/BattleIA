@@ -1,4 +1,5 @@
-## -*- coding: utf-8 -*-# -*- coding: utf-8 -*-
+## -*- coding: utf-8 -*-
+
 import math
 import time
 def nouvellegrille():
@@ -24,15 +25,15 @@ def placerlecoup(grille,y,x,couppossible):
     coup=((y-1)*12)+(x-1)+1
     for i in range(12):
         for j in range(12):
-            if (grille[i][j]=='X' or grille[i][j]==0):
-                nbr+=1
+            if (grille[i][j] == 'X' or grille[i][j] == 0):
+                nbr += 1
     if coup in couppossible:
         if nbr%2==0:
             grille[y-1][x-1]='X'
         else:
             grille[y-1][x-1]=0
         couppossible.remove(coup)
-    else :
+    else:
         print("jouez un coup valide s'il vous plait")
     return couppossible
 def jouerordi(coup,grille,joueur,couppossible):
@@ -48,22 +49,25 @@ def queljoueurjoue(joueur1,joueur2,grille):
     nbr=0
     for i in range(12):
         for j in range(12):
-            if (grille[i][j]=='X' or grille[i][j]==0):
-                nbr+=1
-    if nbr%2==0:
-        return joueur1+'(X)'
+            if (grille[i][j] == 'X' or grille[i][j] == 0):
+                nbr += 1
+    if nbr % 2 == 0:
+        return joueur1 + '(X)'
     else:
-        return joueur2+'(0)'
+        return joueur2 + '(0)'
+
 
 def place(grille):
-    nbr=0
+    nbr = 0
     for i in range(12):
         for j in range(12):
-            if (grille[i][j]=='X' or grille[i][j]==0):
-                nbr+=1
+            if (grille[i][j] == 'X' or grille[i][j] == 0):
+                nbr += 1
     return nbr
-def gagner(grille,profondeur):
-    g=""
+
+
+def gagner(grille, profondeur):
+    g = ""
     for i in range(12):
        for j in range(12):
            if grille[i][j]!=" ":
@@ -85,9 +89,7 @@ def gagner(grille,profondeur):
     if g=='X':
         return (100+profondeur/100) 
     return 0
-    
-    
-        
+
 
 def jeuprincipale():
     choix=0
@@ -104,7 +106,7 @@ def jeuprincipale():
             joueur2=input("Entrez votre nom joueur 2 : ")
             while gagner(grille,0)==0 and len(couppossible)!=0:
                 affiche(grille)
-                print("a vous de jouer",queljoueurjoue(joueur1,joueur2,grille),"quel coup voulez vous faire ")
+                print("a vous de jouer", queljoueurjoue(joueur1, joueur2, grille), "quel coup voulez vous faire ")
                 print(len(couppossible))
                 x=int(input("Entrez un x : "))
                 y=int(input("Entrez un nombre y: "))
@@ -116,13 +118,13 @@ def jeuprincipale():
             joueur2="ordi"
             while gagner(grille,0)==0 and len(couppossible)!=0:
                 affiche(grille)
-                print(queljoueurjoue(joueur1,joueur2,grille))
-                if queljoueurjoue(joueur1,joueur2,grille)!="ordi(0)":
-                    print("a vous de jouer",queljoueurjoue(joueur1,joueur2,grille),"quel coup voulez vous faire ")
+                print(queljoueurjoue(joueur1, joueur2, grille))
+                if queljoueurjoue(joueur1, joueur2, grille) != "ordi(0)":
+                    print("a vous de jouer", queljoueurjoue(joueur1, joueur2, grille), "quel coup voulez vous faire ")
                     print(len(couppossible))
-                    x=int(input("Entrez un x : "))
-                    y=int(input("Entrez un nombre y: "))
-                    couppossible=placerlecoup(grille,y,x,couppossible)
+                    x = int(input("Entrez un x : "))
+                    y = int(input("Entrez un nombre y: "))
+                    couppossible = placerlecoup(grille, y, x, couppossible)
                 else:
                     if premiercoup==False:
                         α=-math.inf
