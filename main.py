@@ -1,9 +1,4 @@
 ## -*- coding: utf-8 -*-# -*- coding: utf-8 -*-
-"""
-Created on Fri Apr 30 17:54:38 2021
-
-@author: regis
-"""
 import math
 import time
 def nouvellegrille():
@@ -192,6 +187,7 @@ def jeuprincipale():
             if gagner(grille,0)==0:
                        print("egalité")
                             
+            
 def deuxtrucalligner(grille):
     j1='X'
     j2=0
@@ -318,6 +314,7 @@ def deuxtrucalligner(grille):
                 
     return score
     
+    
             
 def maxValue(grille,profondeur,α,β):
     g=gagner(grille,profondeur)
@@ -366,9 +363,6 @@ def minValue(grille,profondeur,α,β):
                     return meilleurscore,coup
                   β=min(β,meilleurscore)
     return meilleurscore,coup
-
-
-
 
 
 
