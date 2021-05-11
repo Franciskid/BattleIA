@@ -96,11 +96,12 @@ def gagner(grille,profondeur):
 
 def jeuprincipale():
     choix=0
-    while choix!="3":
+    while choix!="4":
         grille,couppossible=nouvellegrille()
         print("1) jouez l'un contre l'autre")
         print("2) Jouez contre une IA")
-        print("3) Quitter")
+        print("3) ia vs ia")
+        print("4) Quitter")
         choix=(input("?"))
           
         if choix=="1":
@@ -142,7 +143,47 @@ def jeuprincipale():
                     couppossible=placerlecoup(grille,meilleurcoup[0]+1,meilleurcoup[1]+1,couppossible)
                     print(meilleurcoup[0]+1,",",meilleurcoup[1]+1)
                     
-        if choix!=3:
+        if choix=="3":
+            premiercoup=True
+            joueur1="ordi1"
+            joueur2="ordi2"
+            while gagner(grille,0)==0 and len(couppossible)!=0:
+                affiche(grille)
+                if premiercoup==True:
+                    x=5
+                    y=5
+                    meilleurcoup=[x,y]
+                    couppossible=placerlecoup(grille,meilleurcoup[0]+1,meilleurcoup[1]+1,couppossible)
+                    meilleurcoup=[y+1,x+1]
+                    couppossible=placerlecoup(grille,meilleurcoup[0]+1,meilleurcoup[1]+1,couppossible)
+                    premiercoup=False
+                else:
+                    
+                    if queljoueurjoue(joueur1,joueur2,grille)!="ordi2(0)":
+                            α=-math.inf
+                            β=math.inf
+                            debut=time.time()
+                            meilleurcoup=maxValue(grille,0,α,β)[1]
+                            fin=time.time()
+                            print(fin-debut)
+                            couppossible=placerlecoup(grille,meilleurcoup[0]+1,meilleurcoup[1]+1,couppossible)
+                            print(meilleurcoup[0]+1,",",meilleurcoup[1]+1)
+                            affiche(grille)
+                    
+                    else:
+                            α=-math.inf
+                            β=math.inf
+                            debut=time.time()
+                            meilleurcoup=minValue(grille,0,α,β)[1]
+                            fin=time.time()
+                            print(fin-debut)
+                            couppossible=placerlecoup(grille,meilleurcoup[0]+1,meilleurcoup[1]+1,couppossible)
+                            print(meilleurcoup[0]+1,",",meilleurcoup[1]+1)
+                            affiche(grille)
+        
+        
+        
+        if choix!="4":
             affiche(grille)
             if gagner(grille,0)==1:
                        print("bravo", joueur1,"vous avez gagner")
@@ -165,12 +206,23 @@ def deuxtrucalligner(grille):
                             score+=1
                       if grille[i][j]==j2:
                             score+= -1
+                  if grille[i-1][j]==grille[i+1][j]==" " and  grille[i][j]==grille[i+2][j]:
+                      if grille[i][j]==j1:
+                            score+=-1
+                      if grille[i][j]==j2:
+                            score+= 1
+                      
                if j<=9 and j>=1:
                    if grille[i][j-1]==grille[i][j+2]==" "and grille[i][j]==grille[i][j+1]:  
                          if grille[i][j]==j1:
                             score+=1
                          if grille[i][j]==j2:
                             score+= -1
+                   if grille[i][j-1]==grille[i][j+1]==" "and grille[i][j]==grille[i][j+2]:  
+                        if grille[i][j]==j1:
+                            score+=-1
+                        if grille[i][j]==j2:
+                            score+= 1
               
                if i<=9 and j<=9 and j>=1 and i>=1:
                    if grille[i][j]==grille[i+1][j+1] and grille[i+2][j+2]==grille[i-1][j-1]==" ":
@@ -178,37 +230,70 @@ def deuxtrucalligner(grille):
                             score+=1
                           if grille[i][j]==j2:
                             score+=-1
+                   if grille[i][j]==grille[i+2][j+2] and grille[i+1][j+1]==grille[i-1][j-1]==" ":
+                          if grille[i][j]==j1:
+                            score+=-1
+                          if grille[i][j]==j2:
+                            score+=1
                if i<=9 and j<=9 and j>=1 and i>=1:
                     if grille[i][j]==grille[i+1][j-1] and grille[i+2][j-2]==grille[i-1][j+1]==' ':
                       if grille[i][j]==j1:
                             score+=1
                       if grille[i][j]==j2:
                             score+= -1
+                    if grille[i][j]==grille[i+2][j-2] and grille[i+1][j-1]==grille[i-1][j+1]==' ':
+                      if grille[i][j]==j1:
+                            score+=-1
+                      if grille[i][j]==j2:
+                            score+= 1
                if i<=8 and i>=1:
                   if grille[i-1][j]==grille[i+3][j]==" "and grille[i][j]==grille[i+1][j]==grille[i+2][j]:
                       if grille[i][j]==j1:
                             score+=10
                       if grille[i][j]==j2:
                             score+= -10
+                  if grille[i-1][j]==grille[i+2][j]==" "and grille[i][j]==grille[i+1][j]==grille[i+3][j]:
+                      if grille[i][j]==j1:
+                            score+=-10
+                      if grille[i][j]==j2:
+                            score+= 10
+                      
                if j<=8 and j>=1:
                    if grille[i][j-1]==grille[i][j+3]==" "and grille[i][j]==grille[i][j+1]==grille[i][j+2]:  
                          if grille[i][j]==j1:
                             score+=10
                          if grille[i][j]==j2:
                             score+= -10
+                   if grille[i][j-1]==grille[i][j+2]==" "and grille[i][j]==grille[i][j+1]==grille[i][j+3]:  
+                         if grille[i][j]==j1:
+                            score+=-10
+                         if grille[i][j]==j2:
+                            score+=10
               
                if i<=8 and j<=8 and j>=1 and i>=1:
                    if grille[i][j]==grille[i+1][j+1]==grille[i+2][j+2] and grille[i+3][j+3]==grille[i-1][j-1]==" ":
                           if grille[i][j]==j1:
-                            score+=10
+                            score+=50
                           if grille[i][j]==j2:
-                            score+= -10
+                            score+= -50
+                   if grille[i][j]==grille[i+1][j+1]==grille[i+3][j+3] and grille[i+2][j+2]==grille[i-1][j-1]==" ":
+                          if grille[i][j]==j1:
+                            score+=50
+                          if grille[i][j]==j2:
+                            score+=-50
                if i<=8 and j<=8 and j>=1 and i>=1:
                     if grille[i][j]==grille[i+1][j-1]==grille[i+2][j-2] and grille[i+3][j-3]==grille[i-1][j+1]==' ':
                       if grille[i][j]==j1:
-                            score+=10
+                            score+=50
                       if grille[i][j]==j2:
-                            score+= -10
+                            score+= -50
+                    if grille[i][j]==grille[i+1][j-1]==grille[i+3][j-3] and grille[i+2][j-2]==grille[i-1][j+1]==' ':
+                      if grille[i][j]==j1:
+                            score=50
+                      if grille[i][j]==j2:
+                            score+=50
+                
+                
     return score
     
     
@@ -260,6 +345,9 @@ def minValue(grille,profondeur,α,β):
                     return meilleurscore,coup
                   β=min(β,meilleurscore)
     return meilleurscore,coup
+
+
+
 
 
 
