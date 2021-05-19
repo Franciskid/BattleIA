@@ -176,7 +176,7 @@ def jeuprincipale():
                         α=-math.inf
                         β=math.inf
                         debut=time.time()
-                        if premierscoups>=2:
+                        if premierscoups>=1:
                             print("r")
                             a=Actions(grille)
                             for A in a:
@@ -187,14 +187,14 @@ def jeuprincipale():
                                     break
                                 grille[A[0]][A[1]]=' '
                             if meilleurcoup==None:
-                                meilleurcoup=maxValue(grille,1,α,β,3)[1]
+                                meilleurcoup=maxValue(grille,1,α,β,4)[1]
                             fin=time.time()
                             print(fin-debut)
                             tempstotal+=(fin-debut)
-                        if premierscoups<2:
+                        if premierscoups<1:
                             premierscoups+=1
-                            meilleurcoup=maxValue(grille,1,α,β,3)[1]
-                            deuxiemecoup=False
+                            meilleurcoup=maxValue(grille,1,α,β,2)[1]
+                            
                             
                     else:
                          meilleurcoup=[5,5]
@@ -351,7 +351,7 @@ def heuristique(grille,profondeur):
                       if grille[i][j]==j2:
                             score+=-50
                             
-               
+               """
                if i<=8 and i>=1:
                   if grille[i+3][j]==grille[i-1][j]==" "and grille[i][j]==grille[i+1][j]==grille[i+2][j]:
                          if grille[i][j]==j1:
@@ -380,6 +380,8 @@ def heuristique(grille,profondeur):
                             score+=10
                       if grille[i][j]==j2:
                             score+=-10
+                """
+               
                
                
     return score
