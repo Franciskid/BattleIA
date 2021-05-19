@@ -1,6 +1,5 @@
 ## -*- coding: utf-8 -*-
 
-
 import math
 import time
 def nouvellegrille():
@@ -92,9 +91,9 @@ def gagner(grille, profondeur):
                       g=grille[i][j]     
               
     if g==0:
-        return -(10000+profondeur)
+        return -1
     if g=='X':
-        return 10000+profondeur
+        return 1
     return 0
 
 
@@ -149,7 +148,7 @@ def jeuprincipale():
                                 break
                             grille[A[0]][A[1]]=' '
                         if meilleurcoup==None:
-                            meilleurcoup=minValue(grille,0,α,β)[1]
+                            meilleurcoup=minValue(grille,0,α,β,3)[1]
                         fin=time.time()
                         tempstotal+=(fin-debut)
                         print(fin-debut)
@@ -159,11 +158,12 @@ def jeuprincipale():
                          premiercoup=False
                      
                     couppossible=placerlecoup(grille,meilleurcoup[0]+1,meilleurcoup[1]+1,couppossible)
-                    print("Bob a jouer:",meilleurcoup[0]+1,",",meilleurcoup[1]+1)
+                    print("Bob a jouer:",meilleurcoup[1]+1,",",meilleurcoup[0]+1)
         
         
         
         if choix=="3":
+            premierscoups=0
             premiercoup=True
             joueur2=input("Entrez votre nom joueur 1 : ")
             joueur1="ordi"
@@ -176,31 +176,38 @@ def jeuprincipale():
                         α=-math.inf
                         β=math.inf
                         debut=time.time()
-                        a=Actions(grille)
-                        for A in a:
-                            grille[A[0]][A[1]]='X'
-                            if gagner(grille,0)>0:
-                                meilleurcoup=[A[0],A[1]]
+                        if premierscoups>=2:
+                            print("r")
+                            a=Actions(grille)
+                            for A in a:
+                                grille[A[0]][A[1]]='X'
+                                if gagner(grille,0)>0:
+                                    meilleurcoup=[A[0],A[1]]
+                                    grille[A[0]][A[1]]=' '
+                                    break
                                 grille[A[0]][A[1]]=' '
-                                break
-                            grille[A[0]][A[1]]=' '
-                        if meilleurcoup==None:
-                            meilleurcoup=maxValue(grille,1,α,β)[1]
-                        fin=time.time()
-                        print(fin-debut)
-                        tempstotal+=(fin-debut)
+                            if meilleurcoup==None:
+                                meilleurcoup=maxValue(grille,1,α,β,3)[1]
+                            fin=time.time()
+                            print(fin-debut)
+                            tempstotal+=(fin-debut)
+                        if premierscoups<2:
+                            premierscoups+=1
+                            meilleurcoup=maxValue(grille,1,α,β,3)[1]
+                            deuxiemecoup=False
+                            
                     else:
                          meilleurcoup=[5,5]
                          premiercoup=False
                     couppossible=placerlecoup(grille,meilleurcoup[0]+1,meilleurcoup[1]+1,couppossible)
-                    print("Bob a jouer:",meilleurcoup[0]+1,",",meilleurcoup[1]+1)
+                    print("Bob a jouer:",meilleurcoup[1]+1,",",meilleurcoup[0]+1)
                 else:
                     print("a vous de jouer", queljoueurjoue(joueur1, joueur2, grille), "quel coup voulez vous faire ")
                     x = int(input("Entrez un x : "))
                     y = int(input("Entrez un nombre y: "))
                     couppossible = placerlecoup(grille, y, x, couppossible)
             
-            print(tempstotal)
+            print("BOB a jouer en",round(tempstotal,3)," secondes au total ")
             
             
             
@@ -225,7 +232,7 @@ def jeuprincipale():
                             α=-math.inf
                             β=math.inf
                             debut=time.time()
-                            meilleurcoup=maxValue(grille,0,α,β)[1]
+                            meilleurcoup=maxValue(grille,0,α,β,3)[1]
                             fin=time.time()
                             print(fin-debut)
                             couppossible=placerlecoup(grille,meilleurcoup[0]+1,meilleurcoup[1]+1,couppossible)
@@ -236,7 +243,7 @@ def jeuprincipale():
                             α=-math.inf
                             β=math.inf
                             debut=time.time()
-                            meilleurcoup=minValue(grille,0,α,β)[1]
+                            meilleurcoup=minValue(grille,0,α,β,3)[1]
                             fin=time.time()
                             print(fin-debut)
                             couppossible=placerlecoup(grille,meilleurcoup[0]+1,meilleurcoup[1]+1,couppossible)
@@ -255,15 +262,13 @@ def jeuprincipale():
                        print("egalité")
                             
             
-def deuxtrucalligner(grille,profondeur):
+def heuristique(grille,profondeur):
     j1='X'
     j2=0
     score=0
     for i in range(12):
        for j in range(12):
-           if grille[i][j]!=" ":
-               
-               
+           if grille[i][j]!=" ":     
                
                if j<=8:
                    if grille[i][j]==grille[i][j+1]==grille[i][j+2]==grille[i][j+3]:
@@ -293,48 +298,32 @@ def deuxtrucalligner(grille,profondeur):
                if i<=9 and i>=1:
                    if grille[i-1][j]==grille[i+2][j]==" "and grille[i][j]==grille[i+1][j]:
                       if grille[i][j]==j1:
-                            score+=1
+                            score+=2
                       if grille[i][j]==j2:
-                            score+= -1          
-                   if grille[i-1][j]==grille[i+1][j]==" " and  grille[i][j]==grille[i+2][j]:
-                      if grille[i][j]==j1:
-                            score+=1
-                      if grille[i][j]==j2:
-                            score+=-1
+                            score+= -2          
+            
                if j<=9 and j>=1:
                    if grille[i][j-1]==grille[i][j+2]==" "and grille[i][j]==grille[i][j+1]:  
                          if grille[i][j]==j1:
-                            score+=1
+                            score+=2
                          if grille[i][j]==j2:
-                            score+= -1
-                   if grille[i][j-1]==grille[i][j+1]==" "and grille[i][j]==grille[i][j+2]:  
-                        if grille[i][j]==j1:
-                            score+=1
-                        if grille[i][j]==j2:
-                            score+=-1
+                            score+= -2
+               
               
                if i<=9 and j<=9 and j>=1 and i>=1:
                    if grille[i][j]==grille[i+1][j+1] and grille[i+2][j+2]==grille[i-1][j-1]==" ":
                           if grille[i][j]==j1:
-                            score+=4
+                            score+=2
                           if grille[i][j]==j2:
-                            score+=-4
-                   if grille[i][j]==grille[i+2][j+2] and grille[i+1][j+1]==grille[i-1][j-1]==" ":
-                          if grille[i][j]==j1:
-                            score+=4
-                          if grille[i][j]==j2:
-                            score+=-4
+                            score+=-2
+                
                if i<=9 and j<=10 and j>=2 and i>=1:
                     if grille[i][j]==grille[i+1][j-1] and grille[i+2][j-2]==grille[i-1][j+1]==' ':
                       if grille[i][j]==j1:
-                            score+=4
+                            score+=2
                       if grille[i][j]==j2:
-                            score+=-4
-                    if grille[i][j]==grille[i+2][j-2] and grille[i+1][j-1]==grille[i-1][j+1]==' ':
-                      if grille[i][j]==j1:
-                            score+=4
-                      if grille[i][j]==j2:
-                            score+=-4
+                            score+=-2
+                   
                if i<=8:
                   if grille[i+3][j]==" " and grille[i][j]==grille[i+1][j]==grille[i+2][j]:
                       if grille[i][j]==j1:
@@ -363,15 +352,15 @@ def deuxtrucalligner(grille,profondeur):
                             score+=-50
                             
                
-               if i<=8 and j<=8:
-                  if grille[i+3][j]==" "and grille[i][j]==grille[i+1][j]==grille[i+2][j]:
+               if i<=8 and i>=1:
+                  if grille[i+3][j]==grille[i-1][j]==" "and grille[i][j]==grille[i+1][j]==grille[i+2][j]:
                          if grille[i][j]==j1:
                             score+=10
                          if grille[i][j]==j2:
                             score+=-10
                       
                if j<=8 and j>=1:
-                   if grille[i][j-1]==grille[i][j+2]==" "and grille[i][j]==grille[i][j+1]==grille[i][j+3]:  
+                   if grille[i][j-1]==grille[i][j+3]==" "and grille[i][j]==grille[i][j+1]==grille[i][j+2]:  
                          if grille[i][j]==j1:
                             score+=10
                          if grille[i][j]==j2:
@@ -391,24 +380,20 @@ def deuxtrucalligner(grille,profondeur):
                             score+=10
                       if grille[i][j]==j2:
                             score+=-10
-                
-
-                
-
+               
                
     return score
     
     
             
-def maxValue(grille,profondeur,α,β):
-    if place(grille)==144 or gagner(grille,profondeur)!=0 or profondeur>3:  
-        return [deuxtrucalligner(grille,profondeur)]
+def maxValue(grille,profondeur,α,β,pronfondeurmaxi):
+    if place(grille)==144 or gagner(grille,profondeur)!=0 or profondeur>pronfondeurmaxi:  
+        return [heuristique(grille,profondeur)]
     meilleurscore=-math.inf
     coup=None
     for a in Actions(grille):
-                 if grille[a[0]][a[1]]==" ":
                      grille[a[0]][a[1]]="X"
-                     score=minValue(grille,profondeur+1,α,β)[0]
+                     score=minValue(grille,profondeur+1,α,β,pronfondeurmaxi)[0]
                      grille[a[0]][a[1]]=" "
                      if meilleurscore<score:
                          meilleurscore=score
@@ -418,16 +403,14 @@ def maxValue(grille,profondeur,α,β):
                      α=max(α,meilleurscore)              
     return meilleurscore,coup
     
-def minValue(grille,profondeur,α,β):   #fonction de minimisation 
-    if place(grille)==144 or gagner(grille,profondeur)!=0 or profondeur>3:  
-        return [deuxtrucalligner(grille,profondeur)]
-    if profondeur>3:
-        return [deuxtrucalligner(grille,profondeur)]
+def minValue(grille,profondeur,α,β,pronfondeurmaxi):   #fonction de minimisation 
+    if place(grille)==144 or gagner(grille,profondeur)!=0 or profondeur>pronfondeurmaxi:  
+        return [heuristique(grille,profondeur)]
     meilleurscore=math.inf 
     coup=None
     for a in Actions(grille):
                   grille[a[0]][a[1]]=0
-                  score=maxValue(grille,profondeur+1,α,β)[0]
+                  score=maxValue(grille,profondeur+1,α,β,pronfondeurmaxi)[0]
                   grille[a[0]][a[1]]=" "
                   if meilleurscore>score:
                      meilleurscore=score
